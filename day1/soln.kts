@@ -1,20 +1,32 @@
 import java.io.File
 
-val filename = "input"
+
+fun findPairWithSum(targetSum: Int, list: List<Int>): Pair<Int, Int>? {
+  var lower = 0
+  var higher = list.count() - 1
+
+  do {
+    val sum = list[lower] + list[higher]
+
+    if (sum == targetSum) {
+      return Pair(list[lower], list[higher])
+    }
+
+    if (sum < targetSum) lower++ else higher-- 
+  }
+  while (lower < higher)
+
+  return null
+}
+
+val filename = "input-example"
 val lines = File(filename).readLines()
 val numbers = lines.map{ it.toInt() }.sorted()
 
-var lower = 0
-var higher = numbers.count() - 1
+val pair = findPairWithSum(2020, numbers)
 
-do {
-  val sum = numbers[lower] + numbers[higher]
-
-  if (sum == 2020) {
-    println(numbers[lower] * numbers[higher])
-    break
-  }
-
-  if (sum < 2020) lower++ else higher-- 
+if (pair != null) {
+  println(pair.first * pair.second)
+} else {
+  println("Not found")
 }
-while (lower < higher)
