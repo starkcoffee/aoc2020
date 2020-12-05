@@ -13,11 +13,11 @@ data class PasswordEntry(val policy: Policy, val password: String) {
 val filename = "input"
 val lines = File(filename).readLines()
 
+val regex = Regex("""(\d+)-(\d+) (\w): (\w+)""")
+
 val passwordEntries = lines.map { line -> 
-  val (policyStr, password) = line.split(':').map{ it.trim() }
-  val (rangeStr, letter) = policyStr.split(' ')
-  val (from, to) = rangeStr.split('-').map{ it.toInt() }
-  PasswordEntry(Policy(from..to, letter.single()), password)
+  val (fromStr, toStr, letter, password) = regex.matchEntire(line)!!.destructured
+  PasswordEntry(Policy(fromStr.toInt()..toStr.toInt(), letter.single()), password)
 }
 
 val numValid = passwordEntries.count{ it.isValid() }
