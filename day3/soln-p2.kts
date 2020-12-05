@@ -6,12 +6,17 @@ fun treeCount(lines: List<String>, step_across:Int, step_down:Int): Int {
   val num_rows = lines.size
   val num_cols = lines.first().length
 
-  val coords = (step_down..num_rows-1 step step_down).map{ row -> Pair(row/step_down*step_across, row) }
+  var i = step_across
+  var tree_count = 0
 
-  val path = coords.map{(col,row) -> lines[row][col%num_cols]}
-  val numTrees = path.count{ it == '#' }
+  for (j in step_down..num_rows-1 step step_down){
+    if (lines[j][i%num_cols] == '#') {
+      tree_count+= 1
+    }
+    i+= step_across
+  }
 
-  return numTrees
+  return tree_count
 }
 
 val filename = "input"
