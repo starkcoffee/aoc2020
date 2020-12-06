@@ -31,7 +31,7 @@ fun isValid(passport: Map<String,String>): Boolean {
   return passport.keys.containsAll(requiredFields) and passport.all{ (key,value) -> isValidField(key, value)}
 }
 
-val filename = "input-example-2"
+val filename = "input"
 val text = File(filename).readText()
 
 val passportAsMaps = text.split("\n\n")         // [passport-string]
