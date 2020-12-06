@@ -14,6 +14,7 @@ val seatIds = lines.map{ toId(it) }
 
 val firstSeatId = seatIds.minOrNull() ?: 0
 
+// https://medium.com/@starkcoffee/arithmetic-series-and-abstract-formulas-17774c689298
 val n = seatIds.size
 val expectedSum = (n+1)*(firstSeatId-1) + (n+1)*(n+2)/2 
 val actualSum = seatIds.sum()
