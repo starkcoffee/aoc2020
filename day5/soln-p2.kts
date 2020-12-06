@@ -8,8 +8,17 @@ fun toId(pass: String): Int {
 val filename = "input"
 val lines = File(filename).readLines()
 
-val passes = lines.map{ toId(it) }
+val seatIds = lines.map{ toId(it) }
 
-println(passes.maxOrNull())
+//println(seatIds.maxOrNull())
+
+val firstSeatId = seatIds.minOrNull() ?: 0
+
+val n = seatIds.size
+val expectedSum = (n+1)*(firstSeatId-1) + (n+1)*(n+2)/2 
+val actualSum = seatIds.sum()
+val mySeatId = expectedSum - actualSum
+
+println(mySeatId)
 
 
