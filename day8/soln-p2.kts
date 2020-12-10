@@ -37,13 +37,18 @@ fun flipAt(index: Int, instructions: List<Instruction>): List<Instruction> {
 
 val jmpsOrNops = instructions.filter{ it.code != Code.ACC }.map{ instructions.indexOf(it)}.iterator()
 
-while (true) {
+fun flipUntilItWorks(jmpsOrNops: Iterator<Int>, instructions: List<Instruction>): Pair<Int, Int> {
   val flipped = flipAt(jmpsOrNops.next(), instructions)
-  val (acc, index) = executeInstructionAt(0, 0, setOf(), flipped)
-  println(index)
-  println("acc is ${acc}")
-  if (index >= instructions.size) break
+  val (acc, lastIndex) = executeInstructionAt(0, 0, setOf(), flipped)
+  return when (lastIndex >= instructions.size) {
+    true -> Pair(acc, lastIndex) 
+    false -> flipUntilItWorks(jmpsOrNops, instructions)
+  }
 }
+
+val (acc, lastIndex) = flipUntilItWorks(jmpsOrNops, instructions)
+println(lastIndex)
+println("acc is ${acc}")
 
 
 
