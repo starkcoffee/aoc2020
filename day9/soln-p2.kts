@@ -21,10 +21,6 @@ val keystoneNumber = (PREAMBLE_SIZE..numbers.size-1)
 
 println(keystoneNumber)
 
-fun sum(bigInts: List<BigInt>): BigInt {
-  return bigInts.fold(0.toBigInteger()){ acc, n -> acc+n} 
-}
-
 fun findStreak(streakSum: BigInt, streak: List<BigInt>, targetSum: BigInt, iterator: Iterator<BigInt>): List<BigInt> {
   if (!iterator.hasNext()) return listOf()
 
