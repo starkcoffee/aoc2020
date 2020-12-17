@@ -5,36 +5,28 @@ data class Mask(val mask: String) {
   val orMask = mask.replace('X','0').toULong(2)
 }
 
-fun applyMasks(mask: Mask, value: ULong): ULong {
+fun applyMask(mask: Mask, value: ULong): ULong {
   return (mask.andMask and value) or mask.orMask
 }
 
 val filename = "input"
-val lines = File(filename).readLines()
+val reversedLines = File(filename).readLines().reversed()
 
 val maskRegex = Regex("""mask = ([X10]+)""")
 val instrRegex = Regex("""mem\[(\d+)\] = (\d+)""")
 
+val memory: Map<ULong, ULong> = reversedLines.withIndex().filter{ instrRegex.matches(it.value) }
+  .fold(mapOf()){ acc, (i, line) ->
 
-val instructions = lines.map{ line -> when {
-    maskRegex.matches(line) -> Mask(maskRegex.matchEntire(line)!!.groupValues[1])
-    else -> {
-      val (memAddrStr, valueStr) = instrRegex.matchEntire(line)!!.destructured
-      Pair(memAddrStr.toULong(), valueStr.toULong())
-    }
+  val (memAddr, value) = instrRegex.matchEntire(line)!!.groupValues.slice(1..2).map{ it.toULong() }
+
+  if (acc.containsKey(memAddr)){
+    acc
+  } else {
+    val maskLine: String = reversedLines.slice(i+1..reversedLines.size-1).find{ maskRegex.matches(it) }!!
+    val mask = Mask(maskRegex.matchEntire(maskLine)!!.groupValues[1])
+    acc + mapOf(memAddr to applyMask(mask, value))
   }
 }
 
-val maskIndices = instructions.withIndex().filter{ it.value is Mask }.map { it.index }
-
-maskIndices.zipWithNext{a, b -> a to b-1 }
-
-println(maskIndices)
-
-/*
-val memory: Map<ULong, ULong> = instructions.fold(mapOf()){ acc, instr ->
-  acc + mapOf(instr.first to applyMasks(andMask, orMask, instr.second))
-}
-
 println(memory.values.sum())
-*/
