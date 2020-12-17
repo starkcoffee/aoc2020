@@ -37,9 +37,6 @@ val arrivalTime = lines[0].toInt()
 val buses = lines[1].split(',').withIndex().filter{ it.value != "x" }.map { (i, n) ->
   Pair((n.toInt()-i).toBigInteger(), n.toBigInteger())
 }
-//.map{ Pair(it.index.toBigInteger(), it.value.toBigInteger()) }
 
 println(crt(buses))
-
-
 
