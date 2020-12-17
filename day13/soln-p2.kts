@@ -2,6 +2,7 @@ import java.io.File
 import java.math.BigInteger as BigInt
 
 // modulos must be primes
+// residues: List<Pair(residue, modulo)>
 fun crt(residues: List<Pair<BigInt, BigInt>>): Pair<BigInt,BigInt> { 
   return residues.reduce{ acc, r ->
     println(acc)
@@ -9,6 +10,7 @@ fun crt(residues: List<Pair<BigInt, BigInt>>): Pair<BigInt,BigInt> {
   }
 }
 
+// r1 and r2 are residues: Pair(residue, modulo)
 fun crt2(r1: Pair<BigInt, BigInt>, r2: Pair<BigInt,BigInt>): Pair<BigInt,BigInt> {
   val (x, m) = r1
   val (y, n) = r2
